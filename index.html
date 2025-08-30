@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>한글 멜로디 생성기 (TouchDesigner 연동)</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- 시작 화면 -->
+    <div id="welcome-screen" class="welcome-screen">
+        <div class="welcome-content">
+            <h1 class="welcome-title">한글 멜로디 생성기</h1>
+            <p class="welcome-description">
+                한글을 입력하고 마우스를 움직여 음악과 비주얼을 만들어보세요.
+                <br><strong>TouchDesigner와 실시간으로 연동됩니다.</strong>
+            </p>
+            
+            <div class="welcome-guide">
+                <h3>사용 방법:</h3>
+                <ul>
+                    <li><strong>TouchDesigner를 먼저 실행</strong>하고 WebSocket 서버를 설정해주세요</li>
+                    <li>시작하기 버튼을 눌러 오디오를 활성화하세요</li>
+                    <li>한글을 입력하면 소리와 함께 TouchDesigner로 신호가 전송됩니다</li>
+                    <li>마우스를 움직여 음의 높이와 세기를 조절할 수 있습니다</li>
+                </ul>
+            </div>
+            
+            <div class="connection-info">
+                <p><strong>TouchDesigner 설정:</strong></p>
+                <p>WebSocket DAT → Mode: Server → Port: 9980</p>
+            </div>
+            
+            <button id="start-btn" class="btn btn--primary btn--lg">시작하기 & 오디오 활성화</button>
+        </div>
+    </div>
+
+    <!-- 메인 애플리케이션 -->
+    <div id="main-app" class="main-app hidden">
+        <header class="app-header">
+            <h1>한글 멜로디 생성기</h1>
+            <div class="header-controls">
+                <div id="connection-status" class="connection-status disconnected">
+                    <div class="status-dot"></div>
+                    <span class="status-text">TouchDesigner 연결 대기중</span>
+                </div>
+                <button id="reconnect-btn" class="btn btn--outline btn--sm">재연결</button>
+                <button id="clear-btn" class="btn btn--outline btn--sm">초기화</button>
+            </div>
+        </header>
+
+        <main class="app-main">
+            <div class="input-section">
+                <label for="korean-input" class="input-label">한글을 입력하세요</label>
+                <input 
+                    type="text" 
+                    id="korean-input" 
+                    class="korean-input"
+                    placeholder="여기에 한글 입력..."
+                    autocomplete="off"
+                >
+            </div>
+            
+            <div class="status-section">
+                <div class="current-char">
+                    <span class="char-display" id="current-char-display">&nbsp;</span>
+                    <div class="char-info">
+                        <div class="consonant-info">
+                            <span class="label">자음:</span>
+                            <span id="consonant-note">&nbsp;</span>
+                        </div>
+                        <div class="vowel-info">
+                            <span class="label">모음:</span>
+                            <span id="vowel-note">&nbsp;</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="debug-section">
+                <h4>TouchDesigner 전송 로그:</h4>
+                <div id="debug-log" class="debug-log"></div>
+            </div>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
